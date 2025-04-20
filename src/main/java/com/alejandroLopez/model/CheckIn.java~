@@ -1,0 +1,76 @@
+package com.alejandroLopez.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.sql.Timestamp;
+
+@Entity
+@Data
+public class CheckIn {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
+    private java.sql.Timestamp startDate;
+
+    @Column(nullable = false)
+    private java.sql.Timestamp endDate;
+
+    @ManyToOne
+    @JoinColumn(name = "idEmployee", nullable = true)
+    private Employee employee;
+
+    public CheckIn() {
+    }
+
+    public CheckIn(Integer id, Timestamp startDate, Timestamp endDate, Employee employee) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.employee = employee;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public Timestamp getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    @Override
+    public String toString() {
+        return "CheckIn{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", employee=" + employee +
+                '}';
+    }
+}

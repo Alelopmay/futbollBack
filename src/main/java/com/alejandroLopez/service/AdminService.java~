@@ -1,0 +1,75 @@
+package com.alejandroLopez.service;
+
+import com.alejandroLopez.UTILS.Encrypt;
+import com.alejandroLopez.UTILS.YourJwtUtil;
+import com.alejandroLopez.model.Admin;
+import com.alejandroLopez.repository.AdminRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class AdminService {
+
+    private final AdminRepository adminRepository;
+    @Autowired
+    private YourJwtUtil jwtUtil;
+
+    public AdminService(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
+    }
+
+    // Crear o actualizar un Admin
+    public Admin saveAdmin(Admin admin) {
+        try {
+            // Encriptamos la contraseña antes de guardarla
+            String encryptedPassword = Encrypt.Encrypt(admin.getPassword());
+            admin.setPassword(encryptedPassword);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error al encriptar la contraseña: " + e.getMessage());
+        }
+        return adminRepository.save(admin);
+    }
+
+    // Obtener todos los Admins
+    public List<Admin> getAllAdmins() {
+        return adminRepository.findAll();
+    }
+
+    // Obtener Admin por ID
+    public Optional<Admin> getAdminById(Integer id) {
+        return adminRepository.findById(id);
+    }
+
+    // Obtener Admin por email (gmail)
+    public Optional<Admin> getAdminByGmail(String gmail) {
+        return Optional.ofNullable(adminRepository.findByGmail(gmail));
+    }
+
+    // Eliminar un Admin por ID
+    public void deleteAdminById(Integer id) {
+        adminRepository.deleteById(id);
+    }
+
+    public String findAdminByCredentials(String gmail, String password) {
+        try {
+            // Encriptar la contraseña proporcionada
+            String hashedPassword = Encrypt.Encrypt(password);
+
+            // Buscar el administrador por correo electrónico y contraseña
+            Admin admin = adminRepository.findByGmailAndPassword(gmail, hashedPassword);
+
+            // Si se encuentra el administrador, generar y devolver el token JWT
+            if (admin != null) {
+                return jwtUtil.generateToken(admin.getId().longValue()); // Retornamos un token con el ID del admin
+            } else {
+                return null; // Devuelve null si las credenciales no son válidas
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error al verificar las credenciales", e);
+        }
+    }
+}

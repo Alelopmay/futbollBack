@@ -1,0 +1,135 @@
+package com.alejandroLopez.model;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+import java.util.Date;
+
+@Entity
+public class HealthRecord {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    private Date date;
+
+    @Lob
+    private String initialDiagnosis;
+
+    @Lob
+    private String finalDiagnosis;
+
+    @Lob
+    private String additionalInfo;
+
+    @Lob
+    private String bodyParts;
+
+    // Relación ManyToOne con Clinic, utilizando @JsonBackReference para evitar ciclos infinitos.
+    @ManyToOne
+    @JoinColumn(name = "clinicId", nullable = false)
+    @JsonBackReference  // Evita que la relación hacia la clínica sea serializada
+    private Clinic clinic;
+
+    @ManyToOne
+    @JoinColumn(name = "employeeId")
+    private Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "clientId")
+    private Client client;
+
+    // Constructor vacío
+    public HealthRecord() {
+    }
+
+    // Constructor completo
+    public HealthRecord(Long id, Date date, String initialDiagnosis, String finalDiagnosis, String additionalInfo, String bodyParts, Clinic clinic, Employee employee, Client client) {
+        this.id = id;
+        this.date = date;
+        this.initialDiagnosis = initialDiagnosis;
+        this.finalDiagnosis = finalDiagnosis;
+        this.additionalInfo = additionalInfo;
+        this.bodyParts = bodyParts;
+        this.clinic = clinic;
+        this.employee = employee;
+        this.client = client;
+    }
+
+    // Getters y setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getInitialDiagnosis() {
+        return initialDiagnosis;
+    }
+
+    public void setInitialDiagnosis(String initialDiagnosis) {
+        this.initialDiagnosis = initialDiagnosis;
+    }
+
+    public String getFinalDiagnosis() {
+        return finalDiagnosis;
+    }
+
+    public void setFinalDiagnosis(String finalDiagnosis) {
+        this.finalDiagnosis = finalDiagnosis;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
+
+    public String getBodyParts() {
+        return bodyParts;
+    }
+
+    public void setBodyParts(String bodyParts) {
+        this.bodyParts = bodyParts;
+    }
+
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+}

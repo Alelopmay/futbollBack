@@ -1,0 +1,56 @@
+package com.alejandroLopez.service;
+
+import com.alejandroLopez.model.Company;
+import com.alejandroLopez.repository.CompanyRepository;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Coordinate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class CompanyService {
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    // Obtener todas las empresas
+    public List<Company> getAllCompanies() {
+        return companyRepository.findAll();
+    }
+
+    // Obtener empresa por ID
+    public Optional<Company> getCompanyById(Long id) {
+        return companyRepository.findById(Math.toIntExact(id));
+    }
+
+    // Crear o actualizar una empresa
+    public Company createOrUpdateCompany(Company company) {
+        // Si la empresa tiene una ubicación, verificamos si ya tiene un Point
+        if (company.getLocation() != null) {
+            GeometryFactory geometryFactory = new GeometryFactory();
+            // Verifica si el Point ya existe, si no, lo crea (esto es más un ejemplo, puedes ajustarlo)
+            if (company.getLocation().isEmpty()) {
+                Point location = geometryFactory.createPoint(new Coordinate(company.getLocation().getX(), company.getLocation().getY()));
+                company.setLocation(location);
+            }
+        }
+
+        // Guardamos la empresa (ya sea nueva o actualizada)
+        return companyRepository.save(company);
+    }
+
+    // Eliminar una empresa
+    public void deleteCompany(Integer id) {
+        companyRepository.deleteById(id);
+    }
+
+    // Método para buscar compañías cercanas a una ubicación específica (lat, lon)
+
+
+    // Obtener ID de la empresa por nombre y contraseña (para login u otros casos)
+
+}

@@ -1,0 +1,68 @@
+package com.alejandroLopez.service;
+
+import com.alejandroLopez.model.Report;
+import com.alejandroLopez.repository.ReportRepository;
+import com.alejandroLopez.repository.EquipmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@Service
+public class ReportService {
+
+    @Autowired
+    private ReportRepository reportRepository;
+
+    @Autowired
+    private EquipmentRepository equipmentRepository;
+
+    public List<Report> getAllReports() {
+        return reportRepository.findAll();
+    }
+
+    public Optional<Report> getReportById(Integer id) {
+        return reportRepository.findById(id);
+    }
+
+    public Report saveReport(Report report) {
+        return reportRepository.save(report);
+    }
+
+    public Report updateReport(Integer id, Report reportDetails) {
+        return reportRepository.findById(id)
+                .map(report -> {
+                    report.setTitle(reportDetails.getTitle());
+                    report.setDescription(reportDetails.getDescription());
+                    report.setMaintenanceType(reportDetails.getMaintenanceType());
+                    report.setDuration(reportDetails.getDuration());
+                    report.setStartTime(reportDetails.getStartTime());
+                    report.setEndTime(reportDetails.getEndTime());
+                    report.setDate(reportDetails.getDate());
+                    report.setEquipment(reportDetails.getEquipment());
+                    report.setWorker(reportDetails.getWorker());
+                    return reportRepository.save(report);
+                })
+                .orElseThrow(() -> new RuntimeException("Report not found"));
+    }
+
+    public void deleteReport(Integer id) {
+        reportRepository.deleteById(id);
+    }
+    // Método para obtener todos los informes de un equipo específico
+    public List<Report> getReportsByEquipmentId(Integer equipmentId) {
+        return reportRepository.findByEquipmentId(equipmentId);
+    }
+    // Método para obtener los informes por el ID del equipo
+    // Método para obtener un informe con todos los detalles
+    public Map<String, Object> getReportWithDetails(Integer reportId) {
+        return reportRepository.findReportDetailsById(reportId);
+    }
+
+    public List<Report> getReportsByWorkerId(Long workerId) {
+        return reportRepository.findByWorkerId(workerId);
+    }
+
+}
