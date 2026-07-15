@@ -11,7 +11,7 @@ public class CorsConfig {
     @Bean
     public CorsFilter corsFilter() {
         org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:5173"); // Permitir el dominio del frontend
+        config.addAllowedOrigin("http://localhost:8100"); // Permitir el dominio del frontend
         config.addAllowedMethod("*"); // Permitir todos los métodos
         config.addAllowedHeader("*"); // Permitir todos los encabezados
 

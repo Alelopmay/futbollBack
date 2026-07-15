@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface EquipmentRepository extends JpaRepository<Equipment, Integer> {
+public interface zEquipmentRepository extends JpaRepository<Equipment, Integer> {
 
     @Query(value = "SELECT e.id, c.name AS company_name, e.serial_number, e.type, e.brand, e.installation_date, e.description " +
             "FROM equipment e " +
@@ -16,5 +17,5 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Integer> {
             nativeQuery = true)
     List<Object[]> findAllEquipmentsByCompany();
 
-
+    Optional<Equipment> findBySerialNumber(String serialNumber);
 }
