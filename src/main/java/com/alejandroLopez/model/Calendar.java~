@@ -1,0 +1,76 @@
+package com.alejandroLopez.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.sql.Date;
+
+@Entity
+@Data
+public class Calendar {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false, length = 255)
+    private String event;
+
+    @Column(nullable = false)
+    private java.sql.Date date;
+
+    @ManyToOne
+    @JoinColumn(name = "idGym", nullable = true)
+    private Gym gym;
+
+    public Calendar() {
+    }
+
+    public Calendar(Integer id, String event, Date date, Gym gym) {
+        this.id = id;
+        this.event = event;
+        this.date = date;
+        this.gym = gym;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEvent() {
+        return event;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Gym getGym() {
+        return gym;
+    }
+
+    public void setGym(Gym gym) {
+        this.gym = gym;
+    }
+
+    @Override
+    public String toString() {
+        return "Calendar{" +
+                "id=" + id +
+                ", event='" + event + '\'' +
+                ", date=" + date +
+                ", gym=" + gym +
+                '}';
+    }
+}

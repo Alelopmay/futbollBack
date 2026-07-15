@@ -1,0 +1,76 @@
+package com.alejandroLopez.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.math.BigDecimal;
+
+@Entity
+@Data
+public class MonthlyFee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
+    private java.math.BigDecimal price;
+
+    @Column(nullable = false, length = 255)
+    private String packagesGym;
+
+    @ManyToOne
+    @JoinColumn(name = "idGym", nullable = true)
+    private Gym gym;
+
+    public MonthlyFee() {
+    }
+
+    public MonthlyFee(Integer id, BigDecimal price, String packagesGym, Gym gym) {
+        this.id = id;
+        this.price = price;
+        this.packagesGym = packagesGym;
+        this.gym = gym;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getPackagesGym() {
+        return packagesGym;
+    }
+
+    public void setPackagesGym(String packagesGym) {
+        this.packagesGym = packagesGym;
+    }
+
+    public Gym getGym() {
+        return gym;
+    }
+
+    public void setGym(Gym gym) {
+        this.gym = gym;
+    }
+
+    @Override
+    public String toString() {
+        return "MonthlyFee{" +
+                "id=" + id +
+                ", price=" + price +
+                ", packagesGym='" + packagesGym + '\'' +
+                ", gym=" + gym +
+                '}';
+    }
+}

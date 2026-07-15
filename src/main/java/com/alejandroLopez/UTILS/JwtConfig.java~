@@ -1,0 +1,15 @@
+package com.alejandroLopez.UTILS;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class JwtConfig {
+
+    @Bean
+    public YourJwtUtil jwtUtil() {
+        // Aquí pasamos la clave secreta (asegúrate de usar la clave real de tu aplicación)
+        String jwtSecret = "your-base64-encoded-secret-key";  // Asegúrate de obtenerla de forma segura
+        return new YourJwtUtil(jwtSecret);
+    }
+}

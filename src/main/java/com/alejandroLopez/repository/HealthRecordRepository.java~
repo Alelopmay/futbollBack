@@ -1,0 +1,14 @@
+package com.alejandroLopez.repository;
+
+import com.alejandroLopez.model.HealthRecord;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface HealthRecordRepository extends JpaRepository<HealthRecord, Long> {
+    // Aquí puedes añadir métodos personalizados si es necesario
+    // Por ejemplo, encontrar registros de salud por cliente
+    List<HealthRecord> findByClientId(Long clientId);
+}

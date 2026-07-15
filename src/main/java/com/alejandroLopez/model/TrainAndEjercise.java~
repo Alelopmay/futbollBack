@@ -1,0 +1,62 @@
+package com.alejandroLopez.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Data
+public class TrainAndEjercise {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "idTrain", nullable = false)
+    private Train train;
+
+    @ManyToOne
+    @JoinColumn(name = "idEjercise", nullable = false)
+    private Ejercise ejercise;
+
+    public TrainAndEjercise() {
+    }
+
+    public TrainAndEjercise(Integer id, Train train, Ejercise ejercise) {
+        this.id = id;
+        this.train = train;
+        this.ejercise = ejercise;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Train getTrain() {
+        return train;
+    }
+
+    public void setTrain(Train train) {
+        this.train = train;
+    }
+
+    public Ejercise getEjercise() {
+        return ejercise;
+    }
+
+    public void setEjercise(Ejercise ejercise) {
+        this.ejercise = ejercise;
+    }
+
+    @Override
+    public String toString() {
+        return "TrainAndEjercise{" +
+                "id=" + id +
+                ", train=" + train +
+                ", ejercise=" + ejercise +
+                '}';
+    }
+}

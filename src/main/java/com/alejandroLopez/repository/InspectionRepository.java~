@@ -1,0 +1,24 @@
+package com.alejandroLopez.repository;
+
+import com.alejandroLopez.model.Inspection;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface InspectionRepository extends JpaRepository<Inspection, Integer> {
+    // Aquí puedes agregar consultas personalizadas si es necesario
+    List<Inspection> findByWorkerId(Long workerId);
+
+
+    // Consulta para obtener la inspección, el trabajador, el equipo y la empresa relacionados con la inspección por su ID
+    @Query("SELECT i FROM Inspection i " +
+            "JOIN FETCH i.worker w " +
+            "JOIN FETCH i.equipment e " +
+            "JOIN FETCH e.company c " +
+            "WHERE i.id = :inspectionId")
+    Optional<Inspection> findInspectionWithDetailsById(Integer inspectionId);
+}
