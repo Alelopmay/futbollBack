@@ -21,7 +21,7 @@ public class Equipo {
     @Column(nullable = false)
     private String nombre;
     private  Integer jugadores;
-    @OneToMany(mappedBy = "equipo",cascade =CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "equipo",cascade =CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     @JsonManagedReference
     @Builder.Default
     private List<Jugador>listJugador=new ArrayList<>();
